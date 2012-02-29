@@ -43,3 +43,18 @@ Creates a new `div` with the contents of whatever Mustache returned.
 The jQuery plugin requires either
 [Hogan.js](https://github.com/twitter/hogan.js) or
 [Mustache.js](https://github.com/janl/mustache.js) in development.
+
+### Loading templates via Javascript in development ###
+
+The templates are read off the file system and dropped into the
+template by a context processor. After this the Javascript can pick
+them up via regular DOM methods. Put this into your main `jinja` template:
+
+    {{ mustache_templates }}
+
+and that's it.
+
+### Loading templates via Javascript in production ###
+
+Your templates should be pre-compiled in production so you don't tax
+the client. Information about how to do this will be forthcoming.
