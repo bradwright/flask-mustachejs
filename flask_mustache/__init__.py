@@ -1,20 +1,48 @@
 # flask-mustache Flask plugin
 import os
 
+from jinja2 import Template
+
 from flask import current_app
 
 # context processor
 def mustache_templates():
     "Returns the content of all Mustache templates in the Jinja environment"
+    # short circuit development
+    if current_app.debug:
+        return {}
+
+    # get all the templates this env knows about
     all_templates = current_app.jinja_loader.list_templates()
-    # returns a dictionary of {template name:content}
+
     mustache_templates = {}
     for template_name in all_templates:
+
         # TODO: make this configurable
+        # we only want a specific extension
         if template_name.endswith('mustache'):
-            template, _, _ = current_app.jinja_loader.get_source(current_app.jinja_env, template_name)
+            # throw away everything except the file content
+            template, _, _ = \
+              current_app.jinja_loader.get_source(current_app.jinja_env,
+                                                  template_name)
+
             mustache_templates[template_name] = template
-    return {'mustache_templates': mustache_templates}
+
+    # now we need to render the templates
+    template_string = """{% if mustache_templates %}
+    {% for template_name, content in mustache_templates.items() %}
+        <script type="text/x-mustache-template" id="{{ template_name|replace('/', '-') }}" charset="utf-8">
+            {{ content|e }}
+        </script>
+    {% endfor %}
+    {% endif %}"""
+
+    context = {
+        'mustache_templates': mustache_templates
+    }
+
+    # returns the full HTML, ready to use in JavaScript
+    return {'mustache_templates': Template(template_string).render(context)}
 
 # template helper function
 def mustache(template, **kwargs):
