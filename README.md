@@ -28,7 +28,7 @@ few arguments:
 Examples:
 
     {{ mustache('includes/_user_profile.mustache', {'user_id':1, 'user_name': 'Bob'}) }}
-    {{ musatche('includes/_user_profile.mustache', user_id=1, user_name='Bob') }}
+    {{ mustache('includes/_user_profile.mustache', user_id=1, user_name='Bob') }}
 
 ## Using in Javascript ##
 
