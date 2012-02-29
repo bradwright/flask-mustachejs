@@ -36,4 +36,10 @@ Flask-Mustache provided a jQuery plugin that lets you load templates
 off the filesystem automatically. To load the above example (no `kwargs`
 in Javascript):
 
-    $.template('includes/_user_profile.mustache').render({user_id:1, user_name:'Bob'})
+    $('<div />').mustache('includes/_user_profile.mustache', {user_id:1, user_name:'Bob'})
+
+Creates a new `div` with the contents of whatever Mustache returned.
+
+The jQuery plugin requires either
+[Hogan.js](https://github.com/twitter/hogan.js) or
+[Mustache.js](https://github.com/janl/mustache.js) in development.
