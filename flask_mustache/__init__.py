@@ -5,6 +5,24 @@ from jinja2 import Template
 
 from flask import current_app
 
+class FlaskMustache(object):
+    "Wrapper to inject Mustache stuff into Flask"
+    def __init__(self, app=None, configure_jinja=True):
+        self._configure_jinja = configure_jinja
+        self.app = app
+
+        if app is not None:
+            self.init_app(app)
+
+    def init_app(self, app):
+        self.app = app
+
+        if self._configure_jinja:
+            app.jinja2.globals['mustache'] = mustache
+
+        app.context_processor(mustache_templates)
+
+
 # context processor
 def mustache_templates():
     "Returns the content of all Mustache templates in the Jinja environment"
