@@ -5,10 +5,11 @@ from jinja2 import Template
 
 from flask import current_app
 
+__all__ = ('FlaskMustache',)
+
 class FlaskMustache(object):
     "Wrapper to inject Mustache stuff into Flask"
-    def __init__(self, app=None, configure_jinja=True):
-        self._configure_jinja = configure_jinja
+    def __init__(self, app=None):
         self.app = app
 
         if app is not None:
@@ -17,9 +18,10 @@ class FlaskMustache(object):
     def init_app(self, app):
         self.app = app
 
-        if self._configure_jinja:
-            app.jinja2.globals['mustache'] = mustache
+        # set up global `mustache` function
+        app.jinja2.globals['mustache'] = mustache
 
+        # attach context processor with template content
         app.context_processor(mustache_templates)
 
 
