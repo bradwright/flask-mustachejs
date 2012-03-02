@@ -2,9 +2,10 @@
 Flask-Mustache
 -------------
 
-`Mustache`__ integration for Flask.
+Mustache__ integration for Flask.
 
-Mustache::
+.. _Mustache: http://mustache.github.com/
+
 """
 from setuptools import setup
 
