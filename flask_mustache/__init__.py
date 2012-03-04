@@ -3,9 +3,11 @@ import os
 
 from jinja2 import Template
 
-from flask import current_app
+from flask import current_app, Blueprint
 
 __all__ = ('FlaskMustache',)
+
+mustache_app = Blueprint('mustache', __name__, static_folder='static')
 
 class FlaskMustache(object):
     "Wrapper to inject Mustache stuff into Flask"
@@ -18,8 +20,10 @@ class FlaskMustache(object):
     def init_app(self, app):
         self.app = app
 
+        app.register_blueprint(mustache_app)
+
         # set up global `mustache` function
-        app.jinja2.globals['mustache'] = mustache
+        app.jinja_env.globals['mustache'] = mustache
 
         # attach context processor with template content
         app.context_processor(mustache_templates)
