@@ -69,7 +69,9 @@
         // replaces the content of the passed in element with the content
         // rendered by Mustache
 
-        return $(this).html(render(templateName, context));
+        $(this).html(render(templateName, context));
+
+        return this;
     };
 
 })(jQuery);
