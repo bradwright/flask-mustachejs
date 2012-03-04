@@ -1,13 +1,11 @@
 # flask-mustache Flask plugin
-import os
-
 from jinja2 import Template
 
 from flask import current_app, Blueprint
 
 __all__ = ('FlaskMustache',)
 
-mustache_app = Blueprint('mustache', __name__, template_folder='templates', static_folder='static')
+mustache_app = Blueprint('mustache', __name__,template_folder='templates', static_folder='static')
 
 class FlaskMustache(object):
     "Wrapper to inject Mustache stuff into Flask"
