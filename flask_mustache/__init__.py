@@ -45,7 +45,7 @@ def mustache_templates():
         return {}
 
     # get all the templates this env knows about
-    all_templates = current_app.jinja_loader.list_templates()
+    all_templates = current_app.jinja_env.loader.list_templates()
 
     ctx_mustache_templates = {}
 
@@ -55,9 +55,9 @@ def mustache_templates():
         # we only want a specific extension
         if template_name.endswith('mustache'):
             # throw away everything except the file content
-            template, _, _ = \
-              current_app.jinja_loader.get_source(current_app.jinja_env,
-                                                  template_name)
+            template, fullpath, _ = \
+              current_app.jinja_env.loader.get_source(current_app.jinja_env,
+                                                      template_name)
 
             ctx_mustache_templates[template_name] = template
 
