@@ -15,13 +15,13 @@ from setuptools import setup
 
 
 setup(
-    name='Flask-Mustache',
-    version='0.2',
+    name='Flask-MustacheJS',
+    version='0.2.1',
     url='https://github.com/bradleywright/flask-mustache',
     license='BSD',
     author='Bradley Wright',
     author_email='brad@intranation.com',
-    description='Mustache integration for Flask.',
+    description='Mustache integration in Flask, with Jinja and client-side libraries.',
     long_description=__doc__,
     packages=['flask_mustache'],
     zip_safe=False,
