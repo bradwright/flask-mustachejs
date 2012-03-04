@@ -7,7 +7,7 @@ from flask import current_app, Blueprint
 
 __all__ = ('FlaskMustache',)
 
-mustache_app = Blueprint('mustache', __name__, static_folder='static')
+mustache_app = Blueprint('mustache', __name__, template_folder='templates', static_folder='static')
 
 class FlaskMustache(object):
     "Wrapper to inject Mustache stuff into Flask"
@@ -47,7 +47,8 @@ def mustache_templates():
     # get all the templates this env knows about
     all_templates = current_app.jinja_loader.list_templates()
 
-    mustache_templates = {}
+    ctx_mustache_templates = {}
+
     for template_name in all_templates:
 
         # TODO: make this configurable
@@ -58,23 +59,14 @@ def mustache_templates():
               current_app.jinja_loader.get_source(current_app.jinja_env,
                                                   template_name)
 
-            mustache_templates[template_name] = template
-
-    # now we need to render the templates
-    template_string = """{% if mustache_templates %}
-    {% for template_name, content in mustache_templates.items() %}
-        <script type="text/x-mustache-template" id="{{ template_name|replace('/', '-') }}" charset="utf-8">
-            {{ content|e }}
-        </script>
-    {% endfor %}
-    {% endif %}"""
+            ctx_mustache_templates[template_name] = template
 
     context = {
-        'mustache_templates': mustache_templates
+        'mustache_templates': ctx_mustache_templates
     }
 
     # returns the full HTML, ready to use in JavaScript
-    return {'mustache_templates': Template(template_string).render(context)}
+    return {'mustache_templates': current_app.jinja_env.get_template('_template_script_block.jinja').render(context)}
 
 # template helper function
 def mustache(template, **kwargs):

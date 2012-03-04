@@ -1,0 +1,7 @@
+{% if mustache_templates %}
+    {% for template_name, content in mustache_templates.items() %}
+        <script type="text/x-mustache-template" id="{{ template_name|replace('/', '-') }}" charset="utf-8">
+            {{ content|e }}
+        </script>
+    {% endfor %}
+{% endif %}
