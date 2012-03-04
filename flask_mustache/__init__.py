@@ -28,6 +28,14 @@ class FlaskMustache(object):
         # attach context processor with template content
         app.context_processor(mustache_templates)
 
+    @staticmethod
+    def attach(app):
+        "This is written so it can work like WSGI middleware"
+        # noop
+        _ = FlaskMustache(app)
+
+        return app
+
 
 # context processor
 def mustache_templates():
