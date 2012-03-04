@@ -1,0 +1,9 @@
+# virtualenv
+venv
+
+# build cruft
+*.egg-info
+build/
+
+# just in case you don't have this locally
+*.pyc
