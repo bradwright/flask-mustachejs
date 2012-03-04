@@ -1,14 +1,15 @@
 """
-Flask-Mustache
--------------
+----------------
+  Flask-Mustache
+----------------
 
-Mustache__ integration for Flask.
+`Mustache`__ integration for Flask.
+
+__ http://mustache.github.com/
 
 Flask-Mustache adds template helpers and context processors to assist
 Flask developers with integrating the Mustache library into their
 development process.
-
-.. _Mustache: http://mustache.github.com/
 
 """
 from setuptools import setup
