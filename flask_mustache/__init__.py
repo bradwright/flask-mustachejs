@@ -61,12 +61,14 @@ def mustache_templates():
 
             ctx_mustache_templates[template_name] = template
 
+    # prepare context for Jinja
     context = {
         'mustache_templates': ctx_mustache_templates
     }
 
     # returns the full HTML, ready to use in JavaScript
-    return {'mustache_templates': current_app.jinja_env.get_template('_template_script_block.jinja').render(context)}
+    template = current_app.jinja_env.get_template('_template_script_block.jinja')
+    return {'mustache_templates': template.render(context)}
 
 # template helper function
 def mustache(template, **kwargs):
@@ -74,8 +76,10 @@ def mustache(template, **kwargs):
 
         {{ mustache('path/to/whatever.mustache', key=value, key1=value1.. keyn=valuen) }}
 
-    This uses the regular Jinja2 loader to find the templates, so your *.mustache files
-    will need to be available in that path.
+    This uses the regular Jinja2 loader to find the templates, so your
+    *.mustache files will need to be available in that path.
     """
-    template, _, _ = current_app.jinja_loader.get_source(current_app.jinja_env, template)
+    # TODO: cache loaded templates
+    template, _, _ = current_app.jinja_loader.get_source(current_app.jinja_env,
+                                                         template)
     return pystache.render(template, kwargs, encoding='utf-8')
