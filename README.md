@@ -15,6 +15,23 @@ It assumes the following things:
 
 If you're okay with all of the above, read on.
 
+## Adding to Flask ##
+
+If Flask-Mustache is installed in your `pythonpath`, it'll be
+automatically made available under `flask.ext`:
+
+    from flask.ext.mustache import FlaskMustache
+
+There are two ways to add your app, depending on preference.
+
+    # noop style
+    FlaskMustache(app)
+
+    # or as a WSGI-middleware style wrapper
+    app = FlaskMustache.attach(app)
+
+In both cases the results are the same.
+
 ## Using in Jinja ##
 
 This extension provides a global function named `mustache`. It takes a
