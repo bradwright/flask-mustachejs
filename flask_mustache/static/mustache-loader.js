@@ -31,11 +31,43 @@
                 // stupid hack to turn HTML-encoded templates into strings, see:
                 // http://stackoverflow.com/a/2419664/61435
                 cache[templateName] = $('<div />').html(
-                    $(document.getElementById(domTemplateName)).html()).text();
+                    $(document.getElementById(domTemplateName)).html().trim()).text();
             }
         }
 
         return cache[templateName];
+    };
+
+    var compile = function(templateName) {
+        // returns a compiled template.
+        // only works with Hogan.js or if templates pre-compiled.
+        var templateContent = load(templateName),
+            template = null;
+
+        if (typeof templateContent !== 'function' && window.Hogan) {
+            template = cache[templateName] = Hogan.compile(templateContent);
+        }
+        if (template === null) {
+            throw new Error("Couldn't compile template " + templateName);
+        }
+        return template;
+    };
+
+    var renderFunction = function(templateName) {
+        // returns a wrapped `render` function
+        // only works with Hogan.js or if templates pre-compiled.
+        var template = compile(templateName);
+
+        return function(context) {
+            // template is pre-compiled
+            if (typeof template === 'function') {
+                return template(context);
+            }
+            // template has been compiled by this file
+            else {
+                return template.render(context);
+            }
+        };
     };
 
     var render = function(templateName, context) {
@@ -69,7 +101,20 @@
         // replaces the content of the passed in element with the content
         // rendered by Mustache
 
-        return $(this).html(render(templateName, context));
+        return this.html(render(templateName, context));
+    };
+
+    $.mustache = function(templateName, context) {
+        // returns the compiled HTML
+
+        return render(templateName, context);
+    };
+
+    $.mustacheAsFunction = function(templateName) {
+        // returns a function that can be used to render the
+        // mustache template
+
+        return renderFunction(templateName);
     };
 
 })(jQuery);
