@@ -72,4 +72,10 @@
         return this.html(render(templateName, context));
     };
 
+    $.mustache = function(templateName, context) {
+        // returns the compiled HTML
+
+        return render(templateName, context);
+    };
+
 })(jQuery);
