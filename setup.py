@@ -4,6 +4,10 @@ Flask-Mustache
 
 Mustache__ integration for Flask.
 
+Flask-Mustache adds template helpers and context processors to assist
+Flask developers with integrating the Mustache library into their
+development process.
+
 .. _Mustache: http://mustache.github.com/
 
 """
@@ -12,7 +16,7 @@ from setuptools import setup
 
 setup(
     name='Flask-Mustache',
-    version='0.1',
+    version='0.2',
     url='https://github.com/bradleywright/flask-mustache',
     license='BSD',
     author='Bradley Wright',
