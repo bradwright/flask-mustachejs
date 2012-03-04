@@ -31,7 +31,7 @@
                 // stupid hack to turn HTML-encoded templates into strings, see:
                 // http://stackoverflow.com/a/2419664/61435
                 cache[templateName] = $('<div />').html(
-                    $(document.getElementById(domTemplateName)).html()).text();
+                    $(document.getElementById(domTemplateName)).html().trim()).text();
             }
         }
 
