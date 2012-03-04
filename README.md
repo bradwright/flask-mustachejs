@@ -37,9 +37,11 @@ In both cases the results are the same.
 Flask-Mustache is implemented as a
 [Flask Blueprint](http://flask.pocoo.org/docs/blueprints/) so that it
 can bring its own Jinja templated and static assets along. One
-interesting quick of Blueprints is that they can only serve static assets if
+interesting quirks (bugs) of Flask Blueprints is that they can only
+serve static assets if
 [they're configured with a URL prefix](https://github.com/mitsuhiko/flask/issues/348).
-In the case of Flask-Mustache, that URL prefix is automatically set to `/_mustache`.
+In the case of Flask-Mustache, that URL prefix is automatically set to
+`/_mustache`.
 
 Flask-Mustache comes with a jQuery plugin that loads your templates
 for you in Javascript. To serve this file the regular Flask way:
