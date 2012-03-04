@@ -32,6 +32,26 @@ There are two ways to add your app, depending on preference.
 
 In both cases the results are the same.
 
+### Serving static assets ###
+
+Flask-Mustache is implemented as a
+[Flask Blueprint](http://flask.pocoo.org/docs/blueprints/) so that it
+can bring its own Jinja templated and static assets along. One
+interesting quick of Blueprints is that they can only serve static assets if
+[they're configured with a URL prefix](https://github.com/mitsuhiko/flask/issues/348).
+In the case of Flask-Mustache, that URL prefix is automatically set to `/_mustache`.
+
+Flask-Mustache comes with a jQuery plugin that loads your templates
+for you in Javascript. To serve this file the regular Flask way:
+
+    {{ url_for('mustache.static', filename='mustache-loader.js') }}
+
+or via [Flask-Assets](http://flask-assets.readthedocs.org/en/latest/index.html):
+
+    Bundle('mustache/mustache-loader.js')
+
+and that's it.
+
 ## Using in Jinja ##
 
 This extension provides a global function named `mustache`. It takes a
@@ -49,8 +69,8 @@ Examples:
 
 ## Using in Javascript ##
 
-Flask-Mustache provided a jQuery plugin that lets you load templates
-off the filesystem automatically. To load the above example (no `kwargs`
+Flask-Mustache provides a jQuery plugin that lets you load templates
+off the "filesystem" automatically. To load the above example (no `kwargs`
 in Javascript):
 
     $('<div />').mustache('includes/_user_profile.mustache', {user_id:1, user_name:'Bob'})
@@ -65,7 +85,8 @@ The jQuery plugin requires either
 
 The templates are read off the file system and dropped into the
 template by a context processor. After this the Javascript can pick
-them up via regular DOM methods. Put this into your main `jinja` template:
+them up via regular DOM methods. Put this into your main inherited
+`jinja` template:
 
     {{ mustache_templates }}
 
