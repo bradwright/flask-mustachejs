@@ -18,7 +18,9 @@ class FlaskMustache(object):
     def init_app(self, app):
         self.app = app
 
-        app.register_blueprint(mustache_app)
+        # XXX: this url_prefix is due to a bug in Blueprints where the
+        # static assets aren't available until they have a `url_prefix`
+        app.register_blueprint(mustache_app, url_prefix='/_mustache')
 
         # set up global `mustache` function
         app.jinja_env.globals['mustache'] = mustache
