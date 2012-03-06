@@ -8,6 +8,8 @@
  * Usage:
  *
  *   $('#target').mustache('includes/_user.mustache', {user_name:'Jan'});
+ *   var html = $.mustache('includes/_user.mustache', {user_name:'Jan'});
+ *   $.mustacheAsFunction('includes/_user.mustache')({user_name:'Jan'});
  */
 
 // authored as a jQuery plugin

@@ -79,6 +79,22 @@ in Javascript):
 
 Creates a new `div` with the contents of whatever Mustache returned.
 
+There are two other ways of using the plugin. The first just returns
+the rendered HTML (so you can use it however you want):
+
+    $('<div />'>.html($.mustache('includes/_user_profile.mustache', {user_id:1, user_name:'Bob'}));
+
+and the second returns a function that can be stored as a variable,
+for example in the
+[Backbone.js](http://documentcloud.github.com/backbone/) style:
+
+    var MyView = Backbone.View.extend({
+        template: $.mustacheAsFunction('includes/_user_profile.mustache'),
+        render: function() {
+            this.$el.html(this.template({user_id:1, user_name:'Bob'}));
+        }
+    })
+
 The jQuery plugin requires either
 [Hogan.js](https://github.com/twitter/hogan.js) or
 [Mustache.js](https://github.com/janl/mustache.js) in development.
