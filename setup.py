@@ -17,7 +17,7 @@ from setuptools import setup
 
 setup(
     name='Flask-MustacheJS',
-    version='0.4.2',
+    version='0.4.3',
     url='https://github.com/bradleywright/flask-mustache',
     license='BSD',
     author='Bradley Wright',
@@ -27,6 +27,10 @@ setup(
     packages=['flask_mustache'],
     zip_safe=False,
     include_package_data=True,
+    # include static assets
+    package_data = {
+        '': ['*.jinja', '*.js']
+    },
     platforms='any',
     install_requires=[
         'Flask',
