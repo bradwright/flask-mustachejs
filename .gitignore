@@ -4,6 +4,7 @@ venv
 # build cruft
 *.egg-info
 build/
+dist/
 
 # just in case you don't have this locally
 *.pyc

@@ -1,0 +1,1 @@
+include flask_mustache/static/*.js flask_mustache/templates/*.jinja
