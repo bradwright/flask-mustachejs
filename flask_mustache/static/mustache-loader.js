@@ -48,7 +48,7 @@
             template = cache[templateName] = Hogan.compile(templateContent);
         }
         if (template === null) {
-            throw new Error("Couldn't compile template " + templateName);
+            $.error("Couldn't compile template " + templateName);
         }
         return template;
     };
