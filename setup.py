@@ -17,7 +17,7 @@ from setuptools import setup
 
 setup(
     name='Flask-MustacheJS',
-    version='0.4.3',
+    version='0.4.4',
     url='https://github.com/bradleywright/flask-mustache',
     license='BSD',
     author='Bradley Wright',

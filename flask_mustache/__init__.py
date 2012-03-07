@@ -1,5 +1,8 @@
-# flask-mustache Flask plugin
+"flask-mustache Flask plugin"
+
 from jinja2 import Template
+
+import pystache
 
 from flask import current_app, Blueprint
 
@@ -16,6 +19,7 @@ class FlaskMustache(object):
             self.init_app(app)
 
     def init_app(self, app):
+        "Wrapper around the app so that we can instantiate it from different places"
         self.app = app
 
         # XXX: this url_prefix is due to a bug in Blueprints where the
@@ -55,7 +59,7 @@ def mustache_templates():
         # we only want a specific extension
         if template_name.endswith('mustache'):
             # throw away everything except the file content
-            template, fullpath, _ = \
+            template, _, _ = \
               current_app.jinja_env.loader.get_source(current_app.jinja_env,
                                                       template_name)
 
