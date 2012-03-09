@@ -46,7 +46,7 @@
         var templateContent = load(templateName),
             template = null;
 
-        if (typeof templateContent !== 'function' && window.Hogan) {
+        if (typeof templateContent === 'string' && window.Hogan) {
             template = cache[templateName] = Hogan.compile(templateContent);
         }
         if (template === null) {
