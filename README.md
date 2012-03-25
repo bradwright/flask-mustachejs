@@ -3,7 +3,7 @@
 [Mustache](http://mustache.github.com/) templating tools for
 integration with [Flask](http://flask.pocoo.org).
 
-## Warning: this extension is opionated ##
+## Warning: this extension is opinionated ##
 
 It assumes the following things:
 
