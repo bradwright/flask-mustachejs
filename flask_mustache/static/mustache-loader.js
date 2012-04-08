@@ -12,8 +12,17 @@
  *   $.mustacheAsFunction('includes/_user.mustache')({user_name:'Jan'});
  */
 
+/*jslint
+ browser: true,
+ white: true,
+ vars: true
+*/
+
+/*globals jQuery */
+
 // authored as a jQuery plugin
 (function($) {
+    "use strict";
 
     // this is a cached lookup table of templates
     var cache = {};
@@ -47,7 +56,7 @@
             template = null;
 
         if (typeof templateContent === 'string' && window.Hogan) {
-            template = cache[templateName] = Hogan.compile(templateContent);
+            template = cache[templateName] = window.Hogan.compile(templateContent);
         }
         if (template === null) {
             $.error("Couldn't compile template " + templateName);
@@ -89,10 +98,10 @@
         // template hasn't been pre-compiled yet
         // so we need to do other things
         if (window.Hogan) {
-            return Hogan.compile(template).render(context);
+            return window.Hogan.compile(template).render(context);
         }
         else if (window.Mustache) {
-            return Mustache.render(template, context);
+            return window.Mustache.render(template, context);
         }
 
         // we don't have Hogan or Mustache, so we need to bail
@@ -119,4 +128,4 @@
         return renderFunction(templateName);
     };
 
-})(jQuery);
+}(jQuery));
