@@ -84,6 +84,6 @@ def mustache(template, **kwargs):
     *.mustache files will need to be available in that path.
     """
     # TODO: cache loaded templates
-    template, _, _ = current_app.jinja_loader.get_source(current_app.jinja_env,
-                                                         template)
+    template, _, _ = current_app.jinja_env.loader.get_source(current_app.jinja_env,
+                                                             template)
     return pystache.render(template, kwargs, encoding='utf-8')
