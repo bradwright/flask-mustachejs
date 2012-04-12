@@ -44,9 +44,8 @@ class FlaskMustache(object):
 # context processor
 def mustache_templates():
     "Returns the content of all Mustache templates in the Jinja environment"
-    # short circuit production mode
-    if not current_app.debug:
-        return {}
+    # TODO: add a config option to load mustache templates into the
+    # global context
 
     # get all the templates this env knows about
     all_templates = current_app.jinja_env.loader.list_templates()
