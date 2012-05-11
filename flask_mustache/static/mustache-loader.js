@@ -37,12 +37,16 @@
             // first we need to convert slashes to hyphens, since
             // they're DOM valid
             var domTemplateName = templateName.replace('/', '-');
-
+            // compiled hogan templates are indexed without the extension
+            var hoganTemplateName = domTemplateName.replace('.mustache','');
             if (document.getElementById(domTemplateName)) {
                 // stupid hack to turn HTML-encoded templates into strings, see:
                 // http://stackoverflow.com/a/2419664/61435
                 cache[templateName] = $('<div />').html(
                     $(document.getElementById(domTemplateName)).html().trim()).text();
+            }
+            else if (templates[hoganTemplateName]){
+                cache[templateName] = templates[hoganTemplateName];
             }
         }
 
@@ -70,29 +74,22 @@
         var template = compile(templateName);
 
         return function(context) {
-            // template is pre-compiled
-            if (typeof template === 'function') {
-                return template(context);
-            }
-            // template has been compiled by this file
-            else {
-                return template.render(context);
-            }
+            return template.render(context);
         };
     };
 
     var render = function(templateName, context) {
-
+        
         // first we need to try and load the template
         var template = load(templateName);
-
+        
         if (typeof template === 'undefined') {
             $.error('Unknown template ' + templateName);
         }
-
-        else if (typeof template === 'function') {
-            // template has been pre-compiled, just return it
-            return template(context);
+        // pre-compiled hogan templates are objects
+        else if (typeof template === 'object') {
+            // template has been pre-compiled, just render and return it
+            return template.render(context);
         }
 
         // template hasn't been pre-compiled yet
