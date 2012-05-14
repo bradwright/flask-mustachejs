@@ -26,6 +26,7 @@
 
     // this is a cached lookup table of templates
     var cache = {};
+    var templates;
 
     var load = function(templateName) {
         // this function takes names like: "includes/_user.mustache"
@@ -79,10 +80,10 @@
     };
 
     var render = function(templateName, context) {
-        
+
         // first we need to try and load the template
         var template = load(templateName);
-        
+
         if (typeof template === 'undefined') {
             $.error('Unknown template ' + templateName);
         }
@@ -97,7 +98,8 @@
         if (window.Hogan) {
             return window.Hogan.compile(template).render(context);
         }
-        else if (window.Mustache) {
+
+        if (window.Mustache) {
             return window.Mustache.render(template, context);
         }
 
