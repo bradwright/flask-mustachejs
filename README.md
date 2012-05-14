@@ -121,6 +121,10 @@ javascript to a file, e.g.:
 
     hulk templates/includes/_user_profile.mustache > static/compiled_mustache.js
 
+Serve this javascript file in place of the templates rendered by the
+`jinja` context processor when in production. You will also need to
+include the [Hogan.js client javascript][hoganjsweb]
+
 If you have a number of templates, and/or you want to make the
 pre-compilation part of your deployment process, you might want to
 discover the templates and pass them to `hulk` programmatically.
@@ -129,3 +133,4 @@ discover the templates and pass them to `hulk` programmatically.
 command that does this.
 
 [hoganjs]:https://github.com/twitter/hogan.js
+[hoganjsweb]:https://github.com/twitter/hogan.js/blob/master/web/builds/2.0.0/hogan-2.0.0.min.mustache.js
