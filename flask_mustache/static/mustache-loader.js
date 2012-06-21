@@ -39,7 +39,8 @@
             // they're DOM valid
             var domTemplateName = templateName.replace('/', '-');
             // compiled hogan templates are indexed without the extension
-            var hoganTemplateName = domTemplateName.replace('.mustache','');
+            // and without any folder names
+            var hoganTemplateName = domTemplateName.slice(domTemplateName.lastIndexOf('-')+1).replace('.mustache','');
             if (document.getElementById(domTemplateName)) {
                 // stupid hack to turn HTML-encoded templates into strings, see:
                 // http://stackoverflow.com/a/2419664/61435
