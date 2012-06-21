@@ -37,12 +37,17 @@
             // first we need to convert slashes to hyphens, since
             // they're DOM valid
             var domTemplateName = templateName.replace('/', '-');
-
+            // compiled hogan templates are indexed without the extension
+            // and without any folder names
+            var hoganTemplateName = domTemplateName.slice(domTemplateName.lastIndexOf('-')+1).replace('.mustache','');
             if (document.getElementById(domTemplateName)) {
                 // stupid hack to turn HTML-encoded templates into strings, see:
                 // http://stackoverflow.com/a/2419664/61435
                 cache[templateName] = $('<div />').html(
                     $(document.getElementById(domTemplateName)).html().trim()).text();
+            }
+            else if (templates[hoganTemplateName]){
+                cache[templateName] = templates[hoganTemplateName];
             }
         }
 
@@ -70,14 +75,7 @@
         var template = compile(templateName);
 
         return function(context) {
-            // template is pre-compiled
-            if (typeof template === 'function') {
-                return template(context);
-            }
-            // template has been compiled by this file
-            else {
-                return template.render(context);
-            }
+            return template.render(context);
         };
     };
 
@@ -89,10 +87,10 @@
         if (typeof template === 'undefined') {
             $.error('Unknown template ' + templateName);
         }
-
-        else if (typeof template === 'function') {
-            // template has been pre-compiled, just return it
-            return template(context);
+        // pre-compiled hogan templates are objects
+        else if (typeof template === 'object') {
+            // template has been pre-compiled, just render and return it
+            return template.render(context);
         }
 
         // template hasn't been pre-compiled yet
@@ -100,7 +98,8 @@
         if (window.Hogan) {
             return window.Hogan.compile(template).render(context);
         }
-        else if (window.Mustache) {
+
+        if (window.Mustache) {
             return window.Mustache.render(template, context);
         }
 
