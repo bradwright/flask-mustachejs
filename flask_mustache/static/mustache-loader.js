@@ -26,7 +26,6 @@
 
     // this is a cached lookup table of templates
     var cache = {};
-    var templates;
 
     var load = function(templateName) {
         // this function takes names like: "includes/_user.mustache"
