@@ -37,7 +37,7 @@ In both cases the results are the same.
 Flask-Mustache is implemented as a
 [Flask Blueprint](http://flask.pocoo.org/docs/blueprints/) so that it
 can bring its own Jinja templated and static assets along. One
-interesting quirks (bugs) of Flask Blueprints is that they can only
+interesting quirk (bug) of Flask Blueprints is that they can only
 serve static assets if
 [they're configured with a URL prefix](https://github.com/mitsuhiko/flask/issues/348).
 In the case of Flask-Mustache, that URL prefix is automatically set to
@@ -96,7 +96,7 @@ for example in the
     })
 
 The jQuery plugin requires either
-[Hogan.js](https://github.com/twitter/hogan.js) or
+[Hogan.js][hoganjs] or
 [Mustache.js](https://github.com/janl/mustache.js) in development.
 
 ### Loading templates via Javascript in development ###
@@ -113,4 +113,24 @@ and that's it.
 ### Loading templates via Javascript in production ###
 
 Your templates should be pre-compiled in production so you don't tax
-the client. Information about how to do this will be forthcoming.
+the client. You can do this using the [Hogan.js][hoganjs] binary `hulk`,
+which is available if you have installed [Hogan.js][hoganjs] using npm.
+`hulk` takes a space separated list of files as arguments and outputs
+the compiled template javascript to `stdout`. You can output this
+javascript to a file, e.g.:
+
+    hulk templates/includes/_user_profile.mustache > static/compiled_mustache.js
+
+Serve this javascript file in place of the templates rendered by the
+`jinja` context processor when in production. You will also need to
+include the [Hogan.js client javascript][hoganjsweb]
+
+If you have a number of templates, and/or you want to make the
+pre-compilation part of your deployment process, you might want to
+discover the templates and pass them to `hulk` programmatically.
+[This gist](https://gist.github.com/2693186) shows an example
+[Flask-Script](https://github.com/rduplain/flask-script/) manager
+command that does this.
+
+[hoganjs]:https://github.com/twitter/hogan.js
+[hoganjsweb]:https://github.com/twitter/hogan.js/blob/master/web/builds/2.0.0/hogan-2.0.0.min.mustache.js
