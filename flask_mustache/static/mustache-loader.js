@@ -74,13 +74,16 @@
         // only works with Hogan.js or if templates pre-compiled.
         var template = compile(templateName);
 
-        return function(context) {
-            return template.render(context);
+        return function(context, partials) {
+            return template.render(context, partials);
         };
     };
 
-    var render = function(templateName, context) {
-
+    var render = function(templateName, context, partials) {
+        // if no partials are passed to render, let's pass {} explicitly.
+        if (typeof partials === 'undefined') {
+            partials = {};
+        }
         // first we need to try and load the template
         var template = load(templateName);
 
@@ -90,34 +93,34 @@
         // pre-compiled hogan templates are objects
         else if (typeof template === 'object') {
             // template has been pre-compiled, just render and return it
-            return template.render(context);
+            return template.render(context, partials);
         }
 
         // template hasn't been pre-compiled yet
         // so we need to do other things
         if (window.Hogan) {
-            return window.Hogan.compile(template).render(context);
+            return window.Hogan.compile(template).render(context, partials);
         }
 
         if (window.Mustache) {
-            return window.Mustache.render(template, context);
+            return window.Mustache.render(template, context, partials);
         }
 
         // we don't have Hogan or Mustache, so we need to bail
         $.error('Must have either Hogan.js or Mustache.js to load string templates');
     };
 
-    $.fn.mustache = function(templateName, context) {
+    $.fn.mustache = function(templateName, context, partials) {
         // replaces the content of the passed in element with the content
         // rendered by Mustache
 
-        return this.html(render(templateName, context));
+        return this.html(render(templateName, context, partials));
     };
 
-    $.mustache = function(templateName, context) {
+    $.mustache = function(templateName, context, partials) {
         // returns the compiled HTML
 
-        return render(templateName, context);
+        return render(templateName, context, partials);
     };
 
     $.mustacheAsFunction = function(templateName) {
