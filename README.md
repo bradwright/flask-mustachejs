@@ -63,11 +63,15 @@ few arguments:
    path (it uses the Flask `jinja_env` load path to find templates)
 2. A context object in the form of a dictionary; or
 3. `**kwargs` that become the Mustache context.
+4. a dictionary of partials (optional)
 
 Examples:
 
     {{ mustache('includes/_user_profile.mustache', {'user_id':1, 'user_name': 'Bob'}) }}
     {{ mustache('includes/_user_profile.mustache', user_id=1, user_name='Bob') }}
+    {{ mustache('includes/_user_profile.mustache', partials={'welcome_note':'includes/welcome.mustache'}, user_id=1, user_name='Bob') }}
+
+In the last example, `_user_profile.mustache` can have a reference to the partial `welcome_note` as `{> welcome_note}`.
 
 ## Using in Javascript ##
 
@@ -95,9 +99,18 @@ for example in the
         }
     })
 
+Both of above forms support mustache partials -
+
+    var partials = {welcome_note: 'Welcome, \{\{user_name \}\}' };
+    $('<div />').mustache('includes/_user_profile.mustache', {user_id:1, user_name:'Bob'}, partials=partials)
+
+In the above example, `_user_profile.mustache` has reference to the `welcome_note` partial with `{> welcome_note }`.
+
+
 The jQuery plugin requires either
 [Hogan.js][hoganjs] or
 [Mustache.js](https://github.com/janl/mustache.js) in development.
+
 
 ### Loading templates via Javascript in development ###
 
