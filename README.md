@@ -20,15 +20,19 @@ If you're okay with all of the above, read on.
 If Flask-Mustache is installed in your `pythonpath`, it'll be
 automatically made available under `flask.ext`:
 
-    from flask.ext.mustache import FlaskMustache
+```python
+from flask.ext.mustache import FlaskMustache
+```
 
 There are two ways to add your app, depending on preference.
 
-    # noop style
-    FlaskMustache(app)
+```python
+# noop style
+FlaskMustache(app)
 
-    # or as a WSGI-middleware style wrapper
-    app = FlaskMustache.attach(app)
+# or as a WSGI-middleware style wrapper
+app = FlaskMustache.attach(app)
+```
 
 In both cases the results are the same.
 
@@ -36,7 +40,7 @@ In both cases the results are the same.
 
 Flask-Mustache is implemented as a
 [Flask Blueprint](http://flask.pocoo.org/docs/blueprints/) so that it
-can bring its own Jinja templated and static assets along. One
+can bring its own Jinja templates and static assets along. One
 interesting quirk (bug) of Flask Blueprints is that they can only
 serve static assets if
 [they're configured with a URL prefix](https://github.com/mitsuhiko/flask/issues/348).
@@ -50,7 +54,9 @@ for you in Javascript. To serve this file the regular Flask way:
 
 or via [Flask-Assets](http://flask-assets.readthedocs.org/en/latest/index.html):
 
-    Bundle('mustache/mustache-loader.js')
+```python
+Bundle('mustache/mustache-loader.js')
+```
 
 and that's it.
 
@@ -79,30 +85,38 @@ Flask-Mustache provides a jQuery plugin that lets you load templates
 off the "filesystem" automatically. To load the above example (no `kwargs`
 in Javascript):
 
-    $('<div />').mustache('includes/_user_profile.mustache', {user_id:1, user_name:'Bob'})
+```javascript
+$('<div />').mustache('includes/_user_profile.mustache', {user_id:1, user_name:'Bob'})
+```
 
 Creates a new `div` with the contents of whatever Mustache returned.
 
 There are two other ways of using the plugin. The first just returns
 the rendered HTML (so you can use it however you want):
 
-    $('<div />'>.html($.mustache('includes/_user_profile.mustache', {user_id:1, user_name:'Bob'}));
+```javascript
+$('<div />'>.html($.mustache('includes/_user_profile.mustache', {user_id:1, user_name:'Bob'}));
+```
 
 and the second returns a function that can be stored as a variable,
 for example in the
 [Backbone.js](http://documentcloud.github.com/backbone/) style:
 
-    var MyView = Backbone.View.extend({
-        template: $.mustacheAsFunction('includes/_user_profile.mustache'),
-        render: function() {
-            this.$el.html(this.template({user_id:1, user_name:'Bob'}));
-        }
-    })
+```javascript
+var MyView = Backbone.View.extend({
+    template: $.mustacheAsFunction('includes/_user_profile.mustache'),
+    render: function() {
+        this.$el.html(this.template({user_id:1, user_name:'Bob'}));
+    }
+})
+```
 
 Both of above forms support mustache partials -
 
-    var partials = {welcome_note: 'Welcome, \{\{user_name \}\}' };
-    $('<div />').mustache('includes/_user_profile.mustache', {user_id:1, user_name:'Bob'}, partials=partials)
+```javascript
+var partials = {welcome_note: 'Welcome, \{\{user_name \}\}' };
+$('<div />').mustache('includes/_user_profile.mustache', {user_id:1, user_name:'Bob'}, partials=partials)
+```
 
 In the above example, `_user_profile.mustache` has reference to the `welcome_note` partial with `{> welcome_note }`.
 
