@@ -40,6 +40,11 @@ class FlaskMustache(object):
 
         return app
 
+def get_template(name):
+    # throw away everything except the file content
+    template, _, _ = current_app.jinja_env.loader.get_source(current_app.jinja_env, name)
+    return template
+
 
 # context processor
 def mustache_templates():
@@ -57,12 +62,7 @@ def mustache_templates():
         # TODO: make this configurable
         # we only want a specific extension
         if template_name.endswith('mustache'):
-            # throw away everything except the file content
-            template, _, _ = \
-              current_app.jinja_env.loader.get_source(current_app.jinja_env,
-                                                      template_name)
-
-            ctx_mustache_templates[template_name] = template
+            ctx_mustache_templates[template_name] = get_template(template_name)
 
     # prepare context for Jinja
     context = {
@@ -74,15 +74,25 @@ def mustache_templates():
     return {'mustache_templates': template.render(context)}
 
 # template helper function
-def mustache(template, **kwargs):
+def mustache(template, partials=None, **kwargs):
     """Usage:
 
         {{ mustache('path/to/whatever.mustache', key=value, key1=value1.. keyn=valuen) }}
+
+        or,  with partials
+
+        {{ mustache('path/to/whatever.mustache', partials={'partial_name': 'path/to/partial.mustache'}, \
+                    key1=value1.. keyn=valuen) }}
 
     This uses the regular Jinja2 loader to find the templates, so your
     *.mustache files will need to be available in that path.
     """
     # TODO: cache loaded templates
-    template, _, _ = current_app.jinja_env.loader.get_source(current_app.jinja_env,
-                                                             template)
-    return pystache.render(template, kwargs, encoding='utf-8')
+    template = get_template(template)
+
+    _partials = None
+    if partials:
+        _partials = dict((name, get_template(path)) for name, path in partials.iteritems())
+
+    renderer = pystache.Renderer(partials=_partials)
+    return renderer.render(template, kwargs, encoding='utf-8')
